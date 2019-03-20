@@ -10,7 +10,7 @@
           <!--<BreadcrumbItem>Layout</BreadcrumbItem>-->
         <!--</Breadcrumb>-->
         <Content :style="{marginTop: '30px', padding: '30px', minHeight: '280px', background: '#fff'}">
-          Content
+          <router-view/>
         </Content>
       </Layout>
     </div>

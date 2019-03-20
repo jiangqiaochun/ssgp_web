@@ -17,7 +17,7 @@ export default {
   },
   data () {
     return {
-      sideList: ['选题管理', '账号管理', '个人账号'],
+      sideList: ['选题管理', '学生管理', '教师管理', '个人信息'],
       path2: ['/administrator'],
       userId: localStorage.getItem('userId')
     }

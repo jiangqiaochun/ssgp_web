@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/view/Login/login'
 import Administrator from '@/view/Administrator/administrator'
-
+import Select from '@/view/Administrator/select/select'
 Vue.use(Router)
 
 export default new Router({
@@ -15,7 +15,14 @@ export default new Router({
     {
       path: '/administrator',
       name: 'Administrator',
-      component: Administrator
+      component: Administrator,
+      children: [
+        {
+          path: '',
+          name: 'Select',
+          component: Select
+        }
+      ]
     }
   ]
 })
