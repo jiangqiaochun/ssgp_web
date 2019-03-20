@@ -1,7 +1,25 @@
 <template>
   <div class="container">
-    <Input prefix="ios-contact" placeholder="Enter name" style="width: auto" />
-    <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
+    <div class="logo">
+    </div>
+    <div class="login-container">
+      <div class="login-cube">
+        <Card :bordered="true" id="login-card">
+          <h3 style="margin-left: 22%; margin-top: 5%; font-size: 20px; color: #8c1515">~~欢迎进入选题系统~~</h3>
+          <Form ref="loginForm" :rules="rules" id="login-form" :model="userInfo">
+            <FormItem prop="userId" >
+              <Input v-model="userInfo.userId" prefix="ios-contact" placeholder="用户名" style="width: 90%" />
+            </FormItem>
+            <FormItem prop="password" >
+              <Input type="password" v-model="userInfo.password" prefix="ios-lock" placeholder="密码" style="width: 90%; margin-top: 20px" />
+            </FormItem>
+            <div style=" margin-left: 10%;">
+              <Button @click="handleSubmit" long style="width: 90%; background-color: #8c1515;font-size: 14px; color: white; margin-top: 20px">登录</Button>
+            </div>
+          </Form>
+        </Card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,11 +30,11 @@ export default {
   data () {
     return {
       userInfo: {
-        phoneNum: '',
+        userId: '',
         password: ''
       },
       rules: {
-        phoneNum: [
+        userId: [
           { required: true, message: '账号不能为空', trigger: 'blur' }
         ],
         password: [
@@ -27,11 +45,12 @@ export default {
   },
   methods: {
     handleSubmit () {
-      let request = {phoneNum: this.userInfo.phoneNum, password: this.userInfo.password}
+      let request = {userId: this.userInfo.userId, password: this.userInfo.password}
+      console.log('request===>' + request)
       login(request).then(res => {
         if (res.data.code === 200) {
           localStorage.setItem('userId', res.data.data.userId)
-          if (res.data.data.job === '管理员') {
+          if (res.data.data.character === 'admin') {
             this.$router.push({ path: '/administrator' })
           }
           if (res.data.data.job === '学生') {
@@ -54,6 +73,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="less">
+  @import 'login.less';
 </style>
