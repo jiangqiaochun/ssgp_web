@@ -1,19 +1,19 @@
 <template>
   <div class="student-table">
-    <Button :size="buttonSize" type="default">清空学生信息</Button>
-    <Button :size="buttonSize" type="primary">导入新的学生信息</Button>
+    <Button :size="buttonSize" type="default">清空老师信息</Button>
+    <Button :size="buttonSize" type="primary">导入新的老师信息</Button>
     <Table border :columns="columns1" :data="data1" style="margin-top: 10px"></Table>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'StudentManage',
+  name: 'TeacherManage',
   data () {
     return {
       columns1: [
         {
-          title: '学号',
+          title: '教工号',
           key: 'studentId'
         },
         {
@@ -25,7 +25,7 @@ export default {
           key: 'password'
         },
         {
-          title: '班级',
+          title: '职称',
           key: 'class'
         },
         {

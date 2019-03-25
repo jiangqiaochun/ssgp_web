@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <topbar></topbar>
-    <sidebar :selectedIndex="0"></sidebar>
+    <sidebar></sidebar>
     <div class="main-page">
       <Layout :style="{padding: '0 30px 24px'}">
         <!--<Breadcrumb :style="{margin: '24px 0'}">-->

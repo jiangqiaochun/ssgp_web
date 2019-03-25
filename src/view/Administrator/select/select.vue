@@ -1,5 +1,6 @@
 <template>
   <div class="select-main">
+    <sidebar :selectedIndex="0"></sidebar>
     <div class="select-rate">
       <Row>
         <Col span="8">
@@ -37,9 +38,10 @@
       <Button type="primary" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出表格</Button>
       <br>
       <Table border :columns="columns1" :data="data1" style="margin-top: 10px"></Table>
+      <Page :total="100" show-total style="margin-top: 10px; float: right" />
     </div>
   </div>
-</template>
+</template>s
 
 <script>
 export default {
