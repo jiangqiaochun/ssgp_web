@@ -143,19 +143,33 @@ export default {
       this.changeModal = false
     },
     postChangePsw () {
-      let request = {
-        userId: this.userId,
-        newPsw: this.changePsw.newPsw
-      }
-      postChangePsw(request).then(res => {
-        if (res.data.code === 200) {
-          this.changeModal = false
-          this.$Message.info('修改成功！')
+      if (this.changePsw.newPsw !== this.changePsw.confirmPsw) {
+        this.$Message.error('两次输入密码不一致!')
+      } else {
+        let request = {
+          userId: this.userId,
+          newPsw: this.changePsw.newPsw
         }
-      }).catch((e) => {
-        this.changeModal = false
-        this.$Message.error('修改密码失败：' + e.message)
-      })
+        console.log('request:', request)
+        postChangePsw(request).then(res => {
+          if (res.data.code === 200) {
+            this.changeModal = false
+            // var config = {
+            //   message: '密码修改成功，5秒后将跳转至登录页面！',
+            //   duration: 5000
+            // }
+            this.$Message.success({
+              content: '密码修改成功，5秒后将跳转重新登录',
+              duration: 5
+            })
+            localStorage.clear()
+            this.$router.push('/')
+          }
+        }).catch((e) => {
+          this.changeModal = false
+          this.$Message.error('修改密码失败：' + e.message)
+        })
+      }
     }
   }
 }

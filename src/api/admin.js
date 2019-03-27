@@ -11,12 +11,12 @@ export const getUserInfo = (userId) => {
   })
 }
 
-export const postChangePsw = (userId, newPsw) => {
+export const postChangePsw = ({userId, newPsw}) => {
   let request = new FormData()
   request.set('newPsw', newPsw)
   return axios.request({
     url: '/users/' + userId,
     data: request,
-    method: 'post'
+    method: 'put'
   })
 }
