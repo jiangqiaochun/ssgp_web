@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <topbar></topbar>
-    <sidebar></sidebar>
+    <sidebar :menuItems="sideList" parentRouterPath="/administrator/"></sidebar>
     <div class="main-page">
       <Layout :style="{padding: '0 30px 24px'}">
         <!--<Breadcrumb :style="{margin: '24px 0'}">-->
@@ -22,10 +22,20 @@ import Topbar from '@/components/Topbar/topbar'
 import Sidebar from '@/components/Sidebar/sidebar'
 export default {
   name: 'administrator',
-  components: {Sidebar, Topbar}
+  components: {Sidebar, Topbar},
+  data () {
+    return {
+      sideList: [
+        {title: '选题管理', routerPath: 'select'},
+        {title: '学生管理', routerPath: 'studentManage'},
+        {title: '教师管理', routerPath: 'teacherManage'},
+        {title: '个人信息', routerPath: 'personalManage'}
+      ]
+    }
+  }
 }
 </script>
 
-<style lang="css">
-  @import "administrator.css";
+<style lang="css" scoped>
+  @import "../../components/main.css";
 </style>

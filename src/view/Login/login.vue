@@ -46,15 +46,15 @@ export default {
   methods: {
     handleSubmit () {
       let request = {userId: this.userInfo.userId, password: this.userInfo.password}
-      console.log('request===>' + request)
       login(request).then(res => {
+        console.log(res.data)
         if (res.data.code === 200) {
-          localStorage.setItem('userId', res.data.data.userId)
-          if (res.data.data.character === 'admin') {
+          localStorage.setItem('userId', res.data.data.id)
+          if (res.data.data.character === 'Admin') {
             this.$router.push({ path: '/administrator' })
           }
-          if (res.data.data.job === '学生') {
-            this.$router.push({ path: '/agency' })
+          if (res.data.data.character === 'Student') {
+            this.$router.push({ path: '/student' })
           }
           if (res.data.data.job === '教师') {
             this.$router.push({ path: '/adviser' })

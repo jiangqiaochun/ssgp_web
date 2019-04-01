@@ -20,3 +20,11 @@ export const postChangePsw = ({userId, newPsw}) => {
     method: 'put'
   })
 }
+
+export const upload = (e) => {
+  return axios.request({
+    url: '/users/students/upload',
+    file: e.target,
+    method: 'post'
+  })
+}
