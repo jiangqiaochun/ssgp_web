@@ -11,20 +11,21 @@
         <!--<input type="file" value="" id="file" @change="uploadExcel">-->
       </Col>
     </Row>
-    <Table border :columns="columns1" :data="data1" style="margin-top: 10px"></Table>
+    <Table border :columns="columns1" :data="studentList" style="margin-top: 10px"></Table>
   </div>
 </template>
 
 <script>
-import {upload} from '@/api/admin'
+import {getStudentList} from '@/api/admin'
 export default {
   name: 'StudentManage',
   data () {
     return {
+      studentList: [],
       columns1: [
         {
           title: '学号',
-          key: 'studentId'
+          key: 'id'
         },
         {
           title: '姓名',
@@ -36,7 +37,7 @@ export default {
         },
         {
           title: '班级',
-          key: 'class'
+          key: 'classNum'
         },
         {
           title: '联系电话',
@@ -83,6 +84,9 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.getStudentList()
+  },
   methods: {
     handleFormatError (file) {
       this.$Notice.warning({
@@ -90,9 +94,14 @@ export default {
         desc: '文件 ' + file.name + ' 格式不正确， 请选择表格文件'
       })
     },
-    uploadExcel (e) {
-      upload(e).then(res => {
-        console.log(res)
+    getStudentList () {
+      getStudentList().then(res => {
+        if (res.data.code === 200) {
+          console.log(res)
+          this.studentList = res.data.data
+        }
+      }).catch(e => {
+        this.$Message.error('网络错误' + e.message)
       })
     }
   }

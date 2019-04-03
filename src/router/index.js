@@ -38,7 +38,7 @@ export default new Router({
         {
           path: 'personalManage',
           name: 'PersonalManage',
-          component: resolve => require(['@/view/Administrator/personal/personal-manage'], resolve)
+          component: resolve => require(['@/view/Personal/personal/personal-manage'], resolve)
         }
       ]
     },
@@ -56,6 +56,16 @@ export default new Router({
           path: 'studentSelect',
           name: 'studentSelect',
           component: resolve => require(['@/view/Student/select/select-manage'], resolve)
+        },
+        {
+          path: 'mySelection',
+          name: 'mySelection',
+          component: resolve => require(['@/view/Student/mySelection/my-selection'], resolve)
+        },
+        {
+          path: 'personalManage',
+          name: 'personalManage',
+          component: resolve => require(['@/view/Personal/personal/personal-manage'], resolve)
         }
       ]
     }
