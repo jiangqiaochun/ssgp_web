@@ -125,6 +125,7 @@ export default {
   methods: {
     getUserInfo () {
       getUserInfo(this.userId).then(res => {
+        console.log(res)
         if (res.data.code === 200) {
           let response = res.data.data
           // this.userInfo.userId = response.userId
