@@ -1,24 +1,34 @@
 <template>
   <div class="student-table">
-    <Button :size="buttonSize" type="default">清空老师信息</Button>
-    <Button :size="buttonSize" type="primary">导入新的老师信息</Button>
-    <Table border :columns="columns1" :data="data1" style="margin-top: 10px"></Table>
-  </div>
+    <Row>
+      <Col span="2">
+        <Button :size="buttonSize" type="default">清空老师信息</Button>
+      </Col>
+      <Col span="2">
+        <Upload action="http://192.168.80.196:9001/upload/teachers" :format="['xls','xlsx']" :on-format-error="handleFormatError">
+          <Button style="background-color: #8c1515; color: white " icon="ios-cloud-upload-outline">上传老师信息</Button>
+        </Upload>
+      </Col>
+    </Row>
+  <Table border :columns="columns1" :data="teacherList" style="margin-top: 10px"></Table>
+</div>
 </template>
 
 <script>
+import {getTeacherList} from '@/api/admin'
 export default {
   name: 'TeacherManage',
   data () {
     return {
+      teacherList: [],
       columns1: [
         {
           title: '教工号',
-          key: 'studentId'
+          key: 'id'
         },
         {
           title: '姓名',
-          key: 'studentName'
+          key: 'teacherName'
         },
         {
           title: '密码',
@@ -26,11 +36,11 @@ export default {
         },
         {
           title: '职称',
-          key: 'class'
+          key: 'jobTitle'
         },
         {
           title: '联系电话',
-          key: 'studentTel'
+          key: 'phoneNum'
         },
         {
           title: '操作',
@@ -38,7 +48,7 @@ export default {
           render: (h, params) => {
             return h('div', {
               attrs: {
-                // style: 'height: 40px;'
+              // style: 'height: 40px;'
               }
             }, [
               h('span', {
@@ -71,6 +81,20 @@ export default {
           }
         }
       ]
+    }
+  },
+  mounted () {
+    this.getTeacherList()
+  },
+  methods: {
+    getTeacherList () {
+      getTeacherList().then(res => {
+        if (res.data.code === 200) {
+          this.teacherList = res.data.data
+        }
+      }).catch(e => {
+        this.$Message.error('网络错误' + e.message)
+      })
     }
   }
 }

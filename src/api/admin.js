@@ -27,3 +27,10 @@ export const getStudentList = () => {
     method: 'get'
   })
 }
+
+export const getTeacherList = () => {
+  return axios.request({
+    url: '/teachers/',
+    method: 'get'
+  })
+}
