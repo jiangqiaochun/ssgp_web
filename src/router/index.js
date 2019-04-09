@@ -68,6 +68,11 @@ export default new Router({
           component: resolve => require(['@/view/Student/personal/personal-manage'], resolve)
         }
       ]
+    },
+    {
+      path: '/teacher',
+      name: 'Teacher',
+      component: resolve => require(['@/view/Teacher/index'], resolve)
     }
   ]
 })

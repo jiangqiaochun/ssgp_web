@@ -56,8 +56,8 @@ export default {
           if (res.data.data.character === 'Student') {
             this.$router.push({ path: '/student' })
           }
-          if (res.data.data.job === '教师') {
-            this.$router.push({ path: '/adviser' })
+          if (res.data.data.character === 'Teacher') {
+            this.$router.push({ path: '/teacher' })
           }
         } else {
           // console.log('res====》', res)
