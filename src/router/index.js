@@ -72,7 +72,24 @@ export default new Router({
     {
       path: '/teacher',
       name: 'Teacher',
-      component: resolve => require(['@/view/Teacher/index'], resolve)
+      component: resolve => require(['@/view/Teacher/index'], resolve),
+      children: [
+        {
+          path: '',
+          name: 'teacherSelectManage',
+          component: resolve => require(['@/view/Teacher/select/select-manage'], resolve)
+        },
+        {
+          path: 'teacherSelectManage',
+          name: 'teacherSelectManage',
+          component: resolve => require(['@/view/Teacher/select/select-manage'], resolve)
+        },
+        {
+          path: 'personalManage',
+          name: 'personalManage',
+          component: resolve => require(['@/view/Student/personal/personal-manage'], resolve)
+        }
+      ]
     }
   ]
 })

@@ -3,8 +3,8 @@
     <topbar></topbar>
     <sidebar :menuItems="sideList" parentRouterPath="/student/"></sidebar>
     <div class="main-page">
-      <Layout :style="{padding: '0 30px 24px'}">
-        <Content :style="{marginTop: '30px', padding: '30px', minHeight: '280px', background: '#fff'}">
+      <Layout>
+        <Content :style="{ padding: '30px', minHeight: '280px', background: '#fff'}">
           <router-view/>
         </Content>
       </Layout>

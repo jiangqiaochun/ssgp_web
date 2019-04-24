@@ -5,7 +5,7 @@
         <Button :size="buttonSize" type="default">清空学生信息</Button>
       </Col>
       <Col span="2">
-        <Upload action="http://192.168.80.196:9001/upload/students" :format="['xls','xlsx']" :on-format-error="handleFormatError">
+        <Upload action="http://localhost:9001/upload/students" :format="['xls','xlsx']" :on-format-error="handleFormatError">
           <Button style="background-color: #8c1515; color: white " icon="ios-cloud-upload-outline">上传学生信息</Button>
         </Upload>
         <!--<input type="file" value="" id="file" @change="uploadExcel">-->

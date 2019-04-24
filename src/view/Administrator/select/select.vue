@@ -3,8 +3,20 @@
     <sidebar :selectedIndex="0"></sidebar>
     <div class="select-rate">
       <Row>
-        <Col span="8">
-          <Card style="width:320px; height: 150px; line-height: 40px;">
+        <Col span="6">
+          <Card style="height: 160px; line-height: 40px;">
+            <a href="#" slot="extra" @click.prevent="changeLimit">
+              修改>>
+            </a>
+            <div style="text-align:center">
+              <h3>选题时间</h3>
+              <p>开始时间：2018.11.20</p>
+              <p>结束时间：2018.12.01</p>
+            </div>
+          </Card>
+        </Col>
+        <Col span="6">
+          <Card style=" height: 160px; line-height: 40px;">
             <div style="text-align:center">
               <h3>已选学生</h3>
               <h1>80</h1>
@@ -12,8 +24,8 @@
             </div>
           </Card>
         </Col>
-        <Col span="8">
-          <Card style="width:320px; height: 150px; line-height: 40px;">
+        <Col span="6">
+          <Card style=" height: 160px; line-height: 40px;">
             <div style="text-align:center">
               <h3>已选题目</h3>
               <h1>80</h1>
@@ -21,8 +33,8 @@
             </div>
           </Card>
         </Col>
-        <Col span="8">
-          <Card style="width:320px; height: 150px; line-height: 40px;">
+        <Col span="6">
+          <Card style=" height: 160px; line-height: 40px;">
             <a href="#" slot="extra" @click.prevent="changeLimit">
               查看详情>>
             </a>
@@ -35,7 +47,7 @@
       </Row>
     </div>
     <div class="select-table">
-      <Button type="primary" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出表格</Button>
+      <Button type="primary" style="background-color: #8c1515;border: #8c1515" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出表格</Button>
       <br>
       <Table border :columns="columns1" :data="data1" style="margin-top: 10px"></Table>
       <Page :total="100" show-total style="margin-top: 10px; float: right" />

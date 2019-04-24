@@ -5,21 +5,26 @@
         <Button :size="buttonSize" type="default">清空老师信息</Button>
       </Col>
       <Col span="2">
-        <Upload action="http://192.168.80.196:9001/upload/teachers" :format="['xls','xlsx']" :on-format-error="handleFormatError">
+        <Upload action="http://localhost:9001/upload/teachers" :format="['xls','xlsx']" :on-format-error="handleFormatError">
           <Button style="background-color: #8c1515; color: white " icon="ios-cloud-upload-outline">上传老师信息</Button>
         </Upload>
       </Col>
     </Row>
-  <Table border :columns="columns1" :data="teacherList" style="margin-top: 10px"></Table>
-</div>
+    <Table border :columns="columns1" :data="teacherList" style="margin-top: 10px"></Table>
+    <Modal v-model="selections">
+      <Table border :columns="selectionColumn" :data="selectionList" style="margin-top: 10px"></Table>
+    </Modal>
+  </div>
 </template>
 
 <script>
-import {getTeacherList} from '@/api/admin'
+import {getTeacherList, getTeacherSelection} from '@/api/admin'
 export default {
   name: 'TeacherManage',
   data () {
     return {
+      selections: false,
+      selectionList: [],
       teacherList: [],
       columns1: [
         {
@@ -44,13 +49,26 @@ export default {
         },
         {
           title: '操作',
-          width: '100px',
+          width: '150px',
           render: (h, params) => {
             return h('div', {
               attrs: {
               // style: 'height: 40px;'
               }
             }, [
+              h('span', {
+                props: {},
+                style: {
+                  cursor: 'pointer',
+                  marginRight: '10px',
+                  color: '#57a3f3'
+                },
+                on: {
+                  click: () => {
+                    this.showTeacherSelection(params.row)
+                  }
+                }
+              }, '详情'),
               h('span', {
                 props: {},
                 style: {
@@ -80,6 +98,20 @@ export default {
             ])
           }
         }
+      ],
+      selectionColumn: [
+        {
+          title: '选题名称',
+          key: 'projectName'
+        },
+        {
+          title: '选题性质',
+          key: 'projectNature'
+        },
+        {
+          title: '选题分类',
+          key: 'projectType'
+        }
       ]
     }
   },
@@ -94,6 +126,14 @@ export default {
         }
       }).catch(e => {
         this.$Message.error('网络错误' + e.message)
+      })
+    },
+    showTeacherSelection (row) {
+      this.selections = true
+      getTeacherSelection(row.id).then(res => {
+        if (res.data.code === 200) {
+          this.selectionList = res.data.data
+        }
       })
     }
   }

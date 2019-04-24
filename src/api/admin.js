@@ -34,3 +34,12 @@ export const getTeacherList = () => {
     method: 'get'
   })
 }
+
+export const getTeacherSelection = (id) => {
+  let req = new FormData()
+  req.set('teacherId', id)
+  return axios.request({
+    url: '/projects/' + id,
+    method: 'get'
+  })
+}

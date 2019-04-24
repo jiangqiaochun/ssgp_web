@@ -3,13 +3,13 @@
     <topbar></topbar>
     <sidebar :menuItems="sideList" parentRouterPath="/administrator/"></sidebar>
     <div class="main-page">
-      <Layout :style="{padding: '0 30px 24px'}">
+      <Layout>
         <!--<Breadcrumb :style="{margin: '24px 0'}">-->
           <!--<BreadcrumbItem>Home</BreadcrumbItem>-->
           <!--<BreadcrumbItem>Components</BreadcrumbItem>-->
           <!--<BreadcrumbItem>Layout</BreadcrumbItem>-->
         <!--</Breadcrumb>-->
-        <Content :style="{marginTop: '30px', padding: '30px', minHeight: '280px', background: '#fff'}">
+        <Content :style="{padding: '30px', minHeight: '280px', background: '#fff'}">
           <router-view/>
         </Content>
       </Layout>

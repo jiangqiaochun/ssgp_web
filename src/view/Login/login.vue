@@ -5,7 +5,7 @@
     <div class="login-container">
       <div class="login-cube">
         <Card :bordered="true" id="login-card">
-          <h3 style="margin-left: 22%; margin-top: 5%; font-size: 20px; color: #8c1515">~~欢迎进入选题系统~~</h3>
+          <h3 style="text-align: center; font-size: 20px; color: #8c1515">~~欢迎进入选题系统~~</h3>
           <Form ref="loginForm" :rules="rules" id="login-form" :model="userInfo">
             <FormItem prop="userId" >
               <Input v-model="userInfo.userId" prefix="ios-contact" placeholder="用户名" style="width: 90%" />
