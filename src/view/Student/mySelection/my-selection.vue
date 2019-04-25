@@ -6,26 +6,26 @@
       <Col span="12">
         <Form>
           <FormItem label="标题">
-            <p>毕业论文选题系统</p>
+            <p v-html="projectName"></p>
           </FormItem>
           <FormItem label="选题分类">
-            <p>应用</p>
+            <p v-html="this.projectType"></p>
           </FormItem>
           <FormItem label="选题性质">
-            <p>设计</p>
+            <p v-html="this.projectNature"></p>
           </FormItem>
         </Form>
       </Col>
       <Col span="10">
         <Form>
           <FormItem label="老师姓名">
-            <p>陈荣元</p>
+            <p v-html="teacherName"></p>
           </FormItem>
           <FormItem label="老师职称">
-            <p>博士</p>
+            <p v-html="teacherJobTitle"></p>
           </FormItem>
           <FormItem label="联系方式">
-            <p>15616146720</p>
+            <p v-html="teacherPhoneNum"></p>
           </FormItem>
         </Form>
       </Col>
@@ -37,8 +37,24 @@
 </template>
 
 <script>
+import {getMySelection} from '@/api/student'
 export default {
   name: 'select-manage',
+  data () {
+    return {
+      id: '',
+      projectId: '',
+      projectName: '',
+      projectNature: '',
+      projectType: '',
+      teacherName: '',
+      teacherJobTitle: '',
+      teacherPhoneNum: ''
+    }
+  },
+  mounted () {
+    this.getMySelection()
+  },
   methods: {
     goBack () {
       this.$router.push({name: 'studentSelect'})
@@ -50,6 +66,22 @@ export default {
         onOk: () => {
         },
         onCancel: () => {
+        }
+      })
+    },
+    getMySelection () {
+      getMySelection().then(res => {
+        console.log(res)
+        if (res.data.code === 200) {
+          let response = res.data.data
+          this.id = response.id
+          this.projectId = response.projectId
+          this.projectName = response.projectName
+          this.projectNature = response.projectNature
+          this.projectType = response.projectType
+          this.teacherName = response.teacherName
+          this.teacherJobTitle = response.teacherJobTitle
+          this.teacherPhoneNum = response.teacherPhoneNum
         }
       })
     }

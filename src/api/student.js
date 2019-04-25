@@ -27,3 +27,10 @@ export const selectProject = ({studentId, projectId}) => {
     method: 'post'
   })
 }
+
+export const getMySelection = () => {
+  return axios.request({
+    url: '/selections/' + localStorage.getItem('userId'),
+    method: 'get'
+  })
+}
