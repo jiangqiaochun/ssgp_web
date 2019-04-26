@@ -110,6 +110,7 @@ export default {
       console.log(teacherId)
       getProject(teacherId).then(res => {
         if (res.data.code === 200) {
+          console.log(res.data.data)
           this.selectionData = res.data.data
         }
       })

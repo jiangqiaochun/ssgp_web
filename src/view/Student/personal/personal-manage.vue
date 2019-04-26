@@ -7,7 +7,7 @@
           <h4>姓名：</h4>
         </Col>
         <Col span="4">
-          <p v-html="userInfo.userName"></p>
+          <p v-html="userInfo.studentName"></p>
         </Col>
         <Col span="4">
           <a style="font-size: 14px" @click="showChangeModal" >修改密码</a>
@@ -15,26 +15,29 @@
       </Row>
       <Row>
         <Col span="4">
+          <h4>学号：</h4>
+        </Col>
+        <Col span="4">
+          <p v-html="userInfo.userId"></p>
+        </Col>
+      </Row>
+      <Row>
+        <Col span="4">
           <h4>电话：</h4>
         </Col>
         <Col span="4">
-          <p v-html="userInfo.phoneNum"></p>
+          <p v-html="userInfo.studentPhoneNum"></p>
+        </Col>
+        <Col span="4">
+          <a style="font-size: 14px" @click="showChangePhone" >修改号码</a>
         </Col>
       </Row>
       <Row>
         <Col span="4">
-          <h4>所在学院：</h4>
+          <h4>专业班级：</h4>
         </Col>
         <Col span="4">
-          <p v-html="userInfo.college"></p>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="4">
-          <h4>身份：</h4>
-        </Col>
-        <Col span="4">
-          <p v-html="userInfo.character"></p>
+          <p v-html="userInfo.classNum"></p>
         </Col>
       </Row>
     </div>
@@ -55,12 +58,23 @@
         <Button type="primary" size="large" @click="postChangePsw">确定</Button>
       </div>
     </Modal>
+    <Modal v-model="changePhoneModal">
+      <Form :model="changePhone" :label-width="80" style="margin-top: 40px">
+        <FormItem label="新号码" prop="oldPsw">
+          <Input type="text" v-model="changePhone"></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="text" size="large" @click="changeCancel">取消</Button>
+        <Button type="primary" size="large" @click="postChangePhone">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import {postChangePsw} from '@/api/admin'
-import {getStudentInfo} from '@/api/student'
+import {getStudentInfo, changePhone} from '@/api/student'
 export default {
   name: 'PersonalManage',
   data () {
@@ -93,15 +107,17 @@ export default {
     }
     return {
       userId: localStorage.getItem('userId'),
+      changePhone: '',
       userInfo: {
         userId: '',
-        userName: '',
-        phoneNum: '',
+        studentName: '',
+        studentPhoneNum: '',
         password: '',
-        college: '',
+        classNum: '',
         character: ''
       },
       changeModal: false,
+      changePhoneModal: false,
       changePsw: {
         oldPsw: '',
         newPsw: '',
@@ -129,11 +145,12 @@ export default {
         console.log(res)
         if (res.data.code === 200) {
           let response = res.data.data
-          // this.userInfo.userId = response.userId
-          this.userInfo.userName = response.userName
-          this.userInfo.phoneNum = response.phoneNum
+          console.log(response)
+          this.userInfo.userId = response.id
+          this.userInfo.studentName = response.studentName
+          this.userInfo.studentPhoneNum = response.phoneNum
           this.userInfo.password = response.password
-          this.userInfo.college = response.college
+          this.userInfo.classNum = response.classNum
           this.userInfo.character = response.character
         }
       })
@@ -143,6 +160,10 @@ export default {
     },
     changeCancel () {
       this.changeModal = false
+      this.changePhoneModal = false
+    },
+    showChangePhone () {
+      this.changePhoneModal = true
     },
     postChangePsw () {
       if (this.changePsw.newPsw !== this.changePsw.confirmPsw) {
@@ -172,6 +193,15 @@ export default {
           this.$Message.error('修改密码失败：' + e.message)
         })
       }
+    },
+    postChangePhone () {
+      changePhone(this.changePhone).then(res => {
+        if (res.data.code === 200) {
+          this.$Message.success('修改成功')
+          this.userInfo.studentPhoneNum = this.changePhone
+          this.changePhoneModal = false
+        }
+      })
     }
   }
 }

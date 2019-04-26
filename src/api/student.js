@@ -48,3 +48,10 @@ export const getProject = (teacherId) => {
     method: 'get'
   })
 }
+
+export const changePhone = (newPhone) => {
+  return axios.request({
+    url: '/students/' + localStorage.getItem('userId') + '?newPhone=' + newPhone,
+    method: 'post'
+  })
+}

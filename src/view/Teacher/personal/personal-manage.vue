@@ -3,19 +3,19 @@
     <div class="personal-userInfo">
       <Divider>个人信息</Divider>
       <Row>
-      <Col span="4">
-        <h4>姓名：</h4>
-      </Col>
-      <Col span="4">
-        <p v-html="userInfo.userName"></p>
-      </Col>
-      <Col span="4">
-        <a style="font-size: 14px" @click="showChangeModal" >修改密码</a>
-      </Col>
-    </Row>
+        <Col span="4">
+          <h4>姓名：</h4>
+        </Col>
+        <Col span="4">
+          <p v-html="userInfo.teacherName"></p>
+        </Col>
+        <Col span="4">
+          <a style="font-size: 14px" @click="showChangeModal" >修改密码</a>
+        </Col>
+      </Row>
       <Row>
         <Col span="4">
-          <h4>账号：</h4>
+          <h4>工号：</h4>
         </Col>
         <Col span="4">
           <p v-html="userInfo.userId"></p>
@@ -26,15 +26,18 @@
           <h4>电话：</h4>
         </Col>
         <Col span="4">
-          <p v-html="userInfo.phoneNum"></p>
+          <p v-html="userInfo.teacherPhoneNum"></p>
+        </Col>
+        <Col span="4">
+          <a style="font-size: 14px" @click="showChangePhone" >修改号码</a>
         </Col>
       </Row>
       <Row>
         <Col span="4">
-          <h4>所在学院：</h4>
+          <h4>职称：</h4>
         </Col>
         <Col span="4">
-          <p v-html="userInfo.college"></p>
+          <p v-html="userInfo.jobTitle"></p>
         </Col>
       </Row>
     </div>
@@ -55,11 +58,23 @@
         <Button type="primary" size="large" @click="postChangePsw">确定</Button>
       </div>
     </Modal>
+    <Modal v-model="changePhoneModal">
+      <Form :model="changePhone" :label-width="80" style="margin-top: 40px">
+        <FormItem label="新号码" prop="oldPsw">
+          <Input type="text" v-model="changePhone"></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="text" size="large" @click="changeCancel">取消</Button>
+        <Button type="primary" size="large" @click="postChangePhone">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
-import {getUserInfo, postChangePsw} from '@/api/admin'
+import {postChangePsw} from '@/api/admin'
+import {getTeacherInfo, changePhone} from '@/api/teacher'
 export default {
   name: 'PersonalManage',
   data () {
@@ -92,15 +107,17 @@ export default {
     }
     return {
       userId: localStorage.getItem('userId'),
+      changePhone: '',
       userInfo: {
         userId: '',
-        userName: '',
-        phoneNum: '',
+        teacherName: '',
+        teacherPhoneNum: '',
         password: '',
-        college: '',
+        jobTitle: '',
         character: ''
       },
       changeModal: false,
+      changePhoneModal: false,
       changePsw: {
         oldPsw: '',
         newPsw: '',
@@ -124,15 +141,17 @@ export default {
   },
   methods: {
     getUserInfo () {
-      getUserInfo(this.userId).then(res => {
-        console.log('userInfo', res)
+      console.log('getTeacherInfo')
+      getTeacherInfo(this.userId).then(res => {
+        console.log(res)
         if (res.data.code === 200) {
           let response = res.data.data
+          console.log(response)
           this.userInfo.userId = response.id
-          this.userInfo.userName = response.userName
-          this.userInfo.phoneNum = response.phoneNum
+          this.userInfo.teacherName = response.teacherName
+          this.userInfo.teacherPhoneNum = response.phoneNum
           this.userInfo.password = response.password
-          this.userInfo.college = response.college
+          this.userInfo.jobTitle = response.jobTitle
           this.userInfo.character = response.character
         }
       })
@@ -142,6 +161,10 @@ export default {
     },
     changeCancel () {
       this.changeModal = false
+      this.changePhoneModal = false
+    },
+    showChangePhone () {
+      this.changePhoneModal = true
     },
     postChangePsw () {
       if (this.changePsw.newPsw !== this.changePsw.confirmPsw) {
@@ -171,6 +194,15 @@ export default {
           this.$Message.error('修改密码失败：' + e.message)
         })
       }
+    },
+    postChangePhone () {
+      changePhone(this.changePhone).then(res => {
+        if (res.data.code === 200) {
+          this.$Message.success('修改成功')
+          this.userInfo.teacherPhoneNum = this.changePhone
+          this.changePhoneModal = false
+        }
+      })
     }
   }
 }

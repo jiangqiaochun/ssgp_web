@@ -25,3 +25,17 @@ export const deletById = (id) => {
     method: 'delete'
   })
 }
+
+export const getTeacherInfo = () => {
+  return axios.request({
+    url: '/teachers/' + localStorage.getItem('userId'),
+    method: 'get'
+  })
+}
+
+export const changePhone = (newPhone) => {
+  return axios.request({
+    url: '/teachers/' + localStorage.getItem('userId') + '?newPhone=' + newPhone,
+    method: 'post'
+  })
+}
