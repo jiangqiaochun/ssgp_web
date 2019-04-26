@@ -49,21 +49,23 @@
     <div class="select-table">
       <Button type="primary" style="background-color: #8c1515;border: #8c1515" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出表格</Button>
       <br>
-      <Table border :columns="columns1" :data="data1" style="margin-top: 10px"></Table>
+      <Table border :columns="columns1" :data="allSelectionData" style="margin-top: 10px"></Table>
       <Page :total="100" show-total style="margin-top: 10px; float: right" />
     </div>
   </div>
 </template>s
 
 <script>
+import {getAllSelections} from '@/api/admin'
 export default {
   name: 'select',
   data () {
     return {
+      allSelectionData: [],
       columns1: [
         {
           title: '姓名',
-          key: 'name',
+          key: 'studentName',
           width: '80px'
         },
         {
@@ -73,25 +75,25 @@ export default {
         },
         {
           title: '班级',
-          key: 'class',
+          key: 'studentClassNum',
           width: '100px'
         },
         {
           title: '学生电话',
-          key: 'studentTel'
+          key: 'studentPhoneNum'
         },
         {
           title: '选题名称',
-          key: 'selecetProjectName'
+          key: 'projectName'
         },
         {
           title: '选题性质',
-          key: 'nature',
+          key: 'projectNature',
           width: '100px'
         },
         {
           title: '选题分类',
-          key: 'type',
+          key: 'projectType',
           width: '100px'
         },
         {
@@ -100,13 +102,25 @@ export default {
         },
         {
           title: '职称',
-          key: 'jobTitle'
+          key: 'teacherJobTitle'
         },
         {
           title: '老师电话',
-          key: 'teacgerTel'
+          key: 'teacherPhoneNum'
         }
       ]
+    }
+  },
+  mounted () {
+    this.getAllSelection()
+  },
+  methods: {
+    getAllSelection () {
+      getAllSelections().then(res => {
+        if (res.data.code === 200) {
+          this.allSelectionData = res.data.data
+        }
+      })
     }
   }
 }

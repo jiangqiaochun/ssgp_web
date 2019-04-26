@@ -43,3 +43,10 @@ export const getTeacherSelection = (id) => {
     method: 'get'
   })
 }
+
+export const getAllSelections = () => {
+  return axios.request({
+    url: '/selections/',
+    method: 'get'
+  })
+}
