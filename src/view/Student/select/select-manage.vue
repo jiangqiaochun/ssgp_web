@@ -2,8 +2,11 @@
   <div class="student-select-main">
     <div class="student-select-search">
       <Button type="primary" style="background-color: #8c1515; border: 0; float: left" @click="goMySelection">查看我的选题</Button>
-      <Input v-model="value" placeholder="请输入老师姓名或选题名称搜索" style="width: 50%" />
-      <Button type="primary" style="background-color: #8c1515; border: 0">搜索</Button>
+      <Select v-model="teacherId" style="width:200px" @on-change="getTeacherProject(teacherId)" >
+        <Option v-for="item in teacherList" :value="item.id" :key="item.id"  >{{ item.teacherName }}</Option>
+      </Select>
+      <Input v-model="searchCondition" placeholder="请输入老师姓名或选题名称搜索" style="width: 50%" />
+      <Button type="primary" style="background-color: #8c1515; border: 0" @click="getSelections">搜索</Button>
     </div>
     <div class="student-select-table">
       <Table border :columns="selectColumns" :data="selectionData" style="margin-top: 10px"></Table>
@@ -12,11 +15,14 @@
 </template>
 
 <script>
-import {getSelectionData, selectProject} from '@/api/student'
+import {getSelectionData, selectProject, getTeacher, getProject} from '@/api/student'
 export default {
   name: 'select-manage',
   data () {
     return {
+      teacherId: '',
+      teacherList: [],
+      searchCondition: '',
       selectionData: [],
       selectColumns: [
         {
@@ -68,13 +74,14 @@ export default {
   },
   mounted () {
     this.getSelections()
+    this.getTeacherList()
   },
   methods: {
     goMySelection () {
       this.$router.push({ name: 'mySelection', params: {studentId: localStorage.getItem('userId')} })
     },
     getSelections () {
-      getSelectionData().then(res => {
+      getSelectionData(this.searchCondition).then(res => {
         if (res.data.code === 200) {
           this.selectionData = res.data.data
         }
@@ -88,6 +95,22 @@ export default {
       selectProject(req).then(res => {
         if (res.data.code === 200) {
           this.$Message.success('选题成功！')
+        }
+      })
+    },
+    getTeacherList () {
+      getTeacher().then(res => {
+        if (res.data.code === 200) {
+          this.teacherList = res.data.data
+        }
+      })
+    },
+    getTeacherProject (teacherId) {
+      console.log('change')
+      console.log(teacherId)
+      getProject(teacherId).then(res => {
+        if (res.data.code === 200) {
+          this.selectionData = res.data.data
         }
       })
     }

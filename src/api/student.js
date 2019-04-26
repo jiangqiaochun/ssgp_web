@@ -10,9 +10,9 @@ export const getStudentInfo = (userId) => {
   })
 }
 
-export const getSelectionData = () => {
+export const getSelectionData = (searchCondition) => {
   return axios.request({
-    url: '/projects',
+    url: '/projects?searchCondition=' + searchCondition,
     method: 'get'
   })
 }
@@ -31,6 +31,20 @@ export const selectProject = ({studentId, projectId}) => {
 export const getMySelection = () => {
   return axios.request({
     url: '/selections/' + localStorage.getItem('userId'),
+    method: 'get'
+  })
+}
+
+export const getTeacher = () => {
+  return axios.request({
+    url: '/teachers/',
+    method: 'get'
+  })
+}
+
+export const getProject = (teacherId) => {
+  return axios.request({
+    url: '/projects/' + teacherId,
     method: 'get'
   })
 }
