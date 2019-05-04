@@ -50,3 +50,10 @@ export const getAllSelections = () => {
     method: 'get'
   })
 }
+
+export const getStatistics = () => {
+  return axios.request({
+    url: '/users/statistics/',
+    method: 'get'
+  })
+}
