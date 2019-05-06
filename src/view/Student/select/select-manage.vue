@@ -9,7 +9,12 @@
       <Button type="primary" style="background-color: #8c1515; border: 0" @click="getSelections">搜索</Button>
     </div>
     <div class="student-select-table">
-      <Table border :columns="selectColumns" :data="selectionData" style="margin-top: 10px"></Table>
+      <Table border :columns="selectColumns" :data="selectionData" style="margin-top: 10px">
+        <template slot-scope="{row}" slot="action" >
+          <p v-if="row.selectedStudentName" v-html="row.selectedStudentName"></p>
+          <Button type="primary" v-else>选择</Button>
+        </template>
+      </Table>
     </div>
   </div>
 </template>
@@ -42,32 +47,29 @@ export default {
           key: 'teacherName'
         },
         {
-          title: '已选人数',
-          key: 'selectedNum'
-        },
-        {
-          title: '操作',
-          render: (h, params) => {
-            return h('div', {
-              attrs: {
-                // style: 'height: 40px;'
-              }
-            }, [
-              h('span', {
-                props: {},
-                style: {
-                  cursor: 'pointer',
-                  marginRight: '10px',
-                  color: '#57a3f3'
-                },
-                on: {
-                  click: () => {
-                    this.selectProject(params.row)
-                  }
-                }
-              }, '选择')
-            ])
-          }
+          title: '已选学生',
+          slot: 'action'
+          // render: (h, params) => {
+          //   return h('div', {
+          //     attrs: {
+          //       // style: 'height: 40px;'
+          //     }
+          //   }, [
+          //     h('span', {
+          //       props: {},
+          //       style: {
+          //         cursor: 'pointer',
+          //         marginRight: '10px',
+          //         color: '#57a3f3'
+          //       },
+          //       on: {
+          //         click: () => {
+          //           this.selectProject(params.row)
+          //         }
+          //       }
+          //     }, '选择')
+          //   ])
+          // }
         }
       ]
     }
@@ -84,6 +86,7 @@ export default {
       getSelectionData(this.searchCondition).then(res => {
         if (res.data.code === 200) {
           this.selectionData = res.data.data
+          console.log(this.selectionData)
         }
       })
     },
