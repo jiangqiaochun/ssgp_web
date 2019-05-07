@@ -83,8 +83,30 @@ export const getOpenTime = (id) => {
   })
 }
 
-export const exportExcel = () => {
+export const deletAllStudent = () => {
   return axios.request({
-    url: '/export/'
+    url: '/students/',
+    method: 'delete'
+  })
+}
+
+export const deletAllTeacher = () => {
+  return axios.request({
+    url: '/teachers/',
+    method: 'delete'
+  })
+}
+
+export const deleteStudentById = (id) => {
+  return axios.request({
+    url: '/students/' + id,
+    method: 'delete'
+  })
+}
+
+export const deleteTeacherById = (id) => {
+  return axios.request({
+    url: '/teachers/' + id,
+    method: 'delete'
   })
 }

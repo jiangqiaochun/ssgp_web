@@ -73,7 +73,7 @@
 </template>s
 
 <script>
-import {getAllSelections, getStatistics, postTime, getOpenTime, exportExcel} from '@/api/admin'
+import {getAllSelections, getStatistics, postTime, getOpenTime} from '@/api/admin'
 export default {
   name: 'select',
   data () {
@@ -194,13 +194,6 @@ export default {
           this.selectedProject = response.selectedProject
           this.unselectedProject = response.projectCount - response.selectedProject
           this.teacherCount = response.teacherCount
-        }
-      })
-    },
-    exportData () {
-      exportExcel().then(res => {
-        if (res.data.code === 200) {
-          this.$Message.success('导出成功')
         }
       })
     }

@@ -2,7 +2,7 @@
   <div class="student-table">
     <Row>
       <Col span="2">
-        <Button :size="buttonSize" type="default">清空老师信息</Button>
+        <Button :size="buttonSize" type="default" @click="deleteAllTeacher">清空老师信息</Button>
       </Col>
       <Col span="2">
         <Upload action="http://localhost:9001/upload/teachers" :format="['xls','xlsx']" :on-format-error="handleFormatError">
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {getTeacherList, getTeacherSelection, examineProject} from '@/api/admin'
+import {getTeacherList, getTeacherSelection, examineProject, deletAllTeacher, deleteTeacherById} from '@/api/admin'
 export default {
   name: 'TeacherManage',
   data () {
@@ -96,7 +96,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.removeStaff(params.row)
+                    this.deleteTeacherById(params.row)
                   }
                 }
               }, '删除')
@@ -161,6 +161,39 @@ export default {
         if (res.data.code === 200) {
           this.$Message.success('审核完成')
           this.getTeacherSelection(this.teacherId)
+        }
+      })
+    },
+    deleteAllTeacher () {
+      this.$Modal.confirm({
+        title: '是否确定删除？',
+        onOk: () => {
+          deletAllTeacher().then(res => {
+            if (res.data.code === 200) {
+              this.$Message.success('删除成功！')
+              this.getProjectList()
+            } else {
+              this.$Message.error('删除失败！')
+            }
+          }).catch(e => {
+            this.$Message.error('网络错误！')
+          })
+        },
+        onCancel: () => {
+        }
+      })
+    },
+    deleteTeacherById (row) {
+      this.$Modal.confirm({
+        title: '是否确定删除？',
+        onOk: () => {
+          deleteTeacherById(row.id).then(res => {
+            if (res.data.code === 200) {
+              this.$Message.success('删除成功')
+            }
+          })
+        },
+        onCancel: () => {
         }
       })
     }

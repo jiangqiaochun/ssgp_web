@@ -2,7 +2,7 @@
   <div class="student-table">
     <Row>
       <Col span="2">
-        <Button :size="buttonSize" type="default">清空学生信息</Button>
+        <Button :size="buttonSize" type="default" @click="deleteAll">清空学生信息</Button>
       </Col>
       <Col span="2">
         <Upload action="http://localhost:9001/upload/students" :format="['xls','xlsx']" :on-format-error="handleFormatError">
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import {getStudentList} from '@/api/admin'
+import {getStudentList, deletAllStudent, deleteStudentById} from '@/api/admin'
 export default {
   name: 'StudentManage',
   data () {
@@ -74,7 +74,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.removeStaff(params.row)
+                    this.deleteById(params.row)
                   }
                 }
               }, '删除')
@@ -102,6 +102,37 @@ export default {
         }
       }).catch(e => {
         this.$Message.error('网络错误' + e.message)
+      })
+    },
+    deleteAll () {
+      this.$Modal.confirm({
+        title: '是否确定删除？',
+        onOk: () => {
+          deletAllStudent().then(res => {
+            if (res.data.code === 200) {
+              this.$Message.success('删除成功！')
+            } else {
+              this.$Message.error('删除失败！')
+            }
+          }).catch(e => {
+            this.$Message.error('网络错误！')
+          })
+        },
+        onCancel: () => {
+        }
+      })
+    },
+    deleteById (row) {
+      this.$Modal.confirm({
+        title: '是否确定删除?',
+        onOk: () => {
+          deleteStudentById(row.id).then(res => {
+            if (res.data.code === 200) {
+              this.$Message.success('删除成功')
+              this.getStudentList()
+            }
+          })
+        }
       })
     }
   }
