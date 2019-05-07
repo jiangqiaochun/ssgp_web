@@ -11,10 +11,10 @@
               <Input v-model="userInfo.userId" prefix="ios-contact" placeholder="用户名" style="width: 90%" />
             </FormItem>
             <FormItem prop="password" >
-              <Input type="password" v-model="userInfo.password" prefix="ios-lock" placeholder="密码" style="width: 90%; margin-top: 20px" />
+              <Input type="password" v-model="userInfo.password" prefix="ios-lock" placeholder="密码" style="width: 90%; margin-top: 10px" />
             </FormItem>
             <div style=" margin-left: 10%;">
-              <Button @click="handleSubmit" long style="width: 90%; background-color: #8c1515;font-size: 14px; color: white; margin-top: 20px">登录</Button>
+              <Button @click="handleSubmit" long style="width: 90%; background-color: #8c1515;font-size: 14px; color: white; margin-top: 10px">登录</Button>
             </div>
           </Form>
         </Card>
@@ -25,6 +25,7 @@
 
 <script>
 import {login} from '@/api/login'
+import {getOpenTime} from '@/api/admin'
 export default {
   name: 'login',
   data () {
@@ -33,6 +34,9 @@ export default {
         userId: '',
         password: ''
       },
+      startTime: '',
+      endTime: '',
+      nowTime: '',
       rules: {
         userId: [
           { required: true, message: '账号不能为空', trigger: 'blur' }
@@ -42,6 +46,10 @@ export default {
         ]
       }
     }
+  },
+  mounted () {
+    this.getNowTime()
+    this.getSystemOpenTime()
   },
   methods: {
     handleSubmit () {
@@ -54,7 +62,14 @@ export default {
             this.$router.push({ path: '/administrator' })
           }
           if (res.data.data.character === 'Student') {
-            this.$router.push({ path: '/student' })
+            let now = new Date(this.nowTime)
+            let startTime = new Date(this.startTime)
+            let endTime = new Date(this.endTime)
+            if (now > startTime && now < endTime) {
+              this.$router.push({ path: '/student' })
+            } else {
+              this.$router.push({path: '/error'})
+            }
           }
           if (res.data.data.character === 'Teacher') {
             this.$router.push({ path: '/teacher' })
@@ -68,6 +83,42 @@ export default {
         this.$Message.error('后台错误！')
       })
       // this.$router.push({ path: '/administrator' })
+    },
+    getSystemOpenTime () {
+      getOpenTime('5cd119d1dc1c731c7047b583').then(res => {
+        if (res.data.code === 200) {
+          let response = res.data.data
+          this.startTime = response.startTime
+          this.endTime = response.endTime
+        }
+      })
+    },
+    getNowTime () {
+      let date = new Date()
+      console.log(date)
+      let seperator1 = '-'
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let strDate = date.getDate()
+      let seperator = ':'
+      let hour = date.getHours()
+      let min = date.getMinutes()
+      let sec = date.getSeconds()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      if (min >= 1 && min <= 9) {
+        min = '0' + min
+      }
+      if (sec >= 1 && sec <= 9) {
+        sec = '0' + sec
+      }
+      let currentdate = year + seperator1 + month + seperator1 + strDate + ' ' + hour + seperator + min + seperator + sec
+      console.log(currentdate)
+      this.nowTime = currentdate
     }
   }
 }

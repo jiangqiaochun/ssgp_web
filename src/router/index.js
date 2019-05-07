@@ -90,6 +90,11 @@ export default new Router({
           component: resolve => require(['@/view/Teacher/personal/personal-manage'], resolve)
         }
       ]
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: resolve => require(['@/view/Login/error'], resolve)
     }
   ]
 })

@@ -47,7 +47,9 @@
       </Row>
     </div>
     <div class="select-table">
-      <Button type="primary" style="background-color: #8c1515;border: #8c1515" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出表格</Button>
+      <a href="http://localhost:9001/export">
+        <Button type="primary" style="background-color: #8c1515;border: #8c1515" size="large"><Icon type="ios-download-outline"></Icon> 导出表格</Button>
+      </a>
       <br>
       <Table border :columns="columns1" :data="allSelectionData" style="margin-top: 10px"></Table>
       <Page :total="100" show-total style="margin-top: 10px; float: right" />
@@ -56,18 +58,22 @@
       <Divider>设置选题时间</Divider>
       <Form>
         <FormItem label="开始时间" v-model="startTime">
-          <DatePicker type="datetime" placeholder="Select date and time" style="width: 200px"></DatePicker>
+          <DatePicker @on-change="getThisStartTime" type="datetime" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem label="结束时间" v-model="endTime">
-          <DatePicker type="datetime" placeholder="Select date and time" style="width: 200px"></DatePicker>
+          <DatePicker @on-change="getEndTime" type="datetime" placeholder="请选择结束时间" style="width: 200px"></DatePicker>
         </FormItem>
       </Form>
+      <div slot="footer">
+        <Button type="text" size="large" @click="changeCancel">取消</Button>
+        <Button type="primary" size="large" @click="postTime">确定</Button>
+      </div>
     </Modal>
   </div>
 </template>s
 
 <script>
-import {getAllSelections, getStatistics} from '@/api/admin'
+import {getAllSelections, getStatistics, postTime, getOpenTime, exportExcel} from '@/api/admin'
 export default {
   name: 'select',
   data () {
@@ -133,6 +139,7 @@ export default {
   mounted () {
     this.getAllSelection()
     this.getStatistics()
+    this.getTime()
   },
   methods: {
     getAllSelection () {
@@ -144,6 +151,36 @@ export default {
     },
     changeTime () {
       this.changeTimeModal = true
+    },
+    changeCancel () {
+      this.changeTimeModal = false
+    },
+    getThisStartTime (timeStart) {
+      this.startTime = timeStart
+    },
+    getEndTime (timeEnd) {
+      this.endTime = timeEnd
+    },
+    getTime () {
+      getOpenTime('5cd119d1dc1c731c7047b583').then(res => {
+        if (res.data.code === 200) {
+          let response = res.data.data
+          this.startTime = response.startTime
+          this.endTime = response.endTime
+        }
+      })
+    },
+    postTime () {
+      let req = {
+        startTime: this.startTime,
+        endTime: this.endTime
+      }
+      console.log(req)
+      postTime(req).then(res => {
+        if (res.data.code === 200) {
+          this.$Message.success('修改成功！')
+        }
+      })
     },
     goTeacher () {
       this.$router.push('teacherManage')
@@ -157,6 +194,13 @@ export default {
           this.selectedProject = response.selectedProject
           this.unselectedProject = response.projectCount - response.selectedProject
           this.teacherCount = response.teacherCount
+        }
+      })
+    },
+    exportData () {
+      exportExcel().then(res => {
+        if (res.data.code === 200) {
+          this.$Message.success('导出成功')
         }
       })
     }

@@ -12,7 +12,7 @@
       <Table border :columns="selectColumns" :data="selectionData" style="margin-top: 10px">
         <template slot-scope="{row}" slot="action" >
           <p v-if="row.selectedStudentName" v-html="row.selectedStudentName"></p>
-          <Button type="primary" v-else>选择</Button>
+          <Button type="primary" v-else @click="selectProject(row)">选择</Button>
         </template>
       </Table>
     </div>
@@ -91,6 +91,7 @@ export default {
       })
     },
     selectProject (row) {
+      console.log(row)
       let req = {
         studentId: localStorage.getItem('userId'),
         projectId: row.projectId

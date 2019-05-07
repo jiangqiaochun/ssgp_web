@@ -3,38 +3,14 @@
     <div class="personal-userInfo">
       <Divider>个人信息</Divider>
       <Row>
-      <Col span="4">
-        <h4>姓名：</h4>
-      </Col>
-      <Col span="4">
-        <p v-html="userInfo.userName"></p>
-      </Col>
-      <Col span="4">
-        <a style="font-size: 14px" @click="showChangeModal" >修改密码</a>
-      </Col>
-    </Row>
-      <Row>
         <Col span="4">
           <h4>账号：</h4>
         </Col>
         <Col span="4">
           <p v-html="userInfo.userId"></p>
         </Col>
-      </Row>
-      <Row>
         <Col span="4">
-          <h4>电话：</h4>
-        </Col>
-        <Col span="4">
-          <p v-html="userInfo.phoneNum"></p>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="4">
-          <h4>所在学院：</h4>
-        </Col>
-        <Col span="4">
-          <p v-html="userInfo.college"></p>
+          <a style="font-size: 14px" @click="showChangeModal" >修改密码</a>
         </Col>
       </Row>
     </div>

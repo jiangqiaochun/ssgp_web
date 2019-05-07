@@ -12,7 +12,13 @@
 <!--      </Col>-->
 <!--    </Row>-->
     <Button type="primary" style="background-color: #8c1515; color: white;border: #8c1515 " @click="showCreateProject">新增</Button>
-    <Table border :columns="columns1" :data="projectList" style="margin-top: 10px"></Table>
+    <Table border :columns="columns1" :data="projectList" style="margin-top: 10px">
+      <template slot-scope="{row}" slot="action">
+        <Button :disabled="row.selectionStatus === '审核成功'" @click="examine(row)">审核</Button>
+<!--        <Button :disabled="row.selectedStudentName">修改</Button>-->
+        <Button :disabled="row.selectedStudentName"  @click="removeProject(row)">删除</Button>
+      </template>
+    </Table>
     <Modal v-model="createProjectModal">
       <h1 style="text-align: center">添加课题</h1>
       <Form :model="createProject" :label-width="80" style="margin-top: 40px">
@@ -39,7 +45,7 @@
 </template>
 
 <script>
-import {postCreateProject, getProjectList, deletById} from '@/api/teacher'
+import {postCreateProject, getProjectList, deletById, examine} from '@/api/teacher'
 export default {
   name: 'teacher-select-manage',
   data () {
@@ -81,52 +87,65 @@ export default {
         },
         {
           title: '题目类型',
-          key: 'projectType'
+          key: 'projectType',
+          width: '90px'
         },
         {
           title: '题目性质',
-          key: 'projectNature'
+          key: 'projectNature',
+          width: '90px'
         },
         {
-          title: '已选人数',
-          key: 'studentNum'
+          title: '教务处状态',
+          key: 'projectStatus',
+          width: '110px'
+        },
+        {
+          title: '已选学生',
+          key: 'selectedStudentName'
+        },
+        {
+          title: '选题状态',
+          key: 'selectionStatus',
+          width: '90px'
         },
         {
           title: '操作',
-          render: (h, params) => {
-            return h('div', {
-              attrs: {
-                // style: 'height: 40px;'
-              }
-            }, [
-              h('span', {
-                props: {},
-                style: {
-                  cursor: 'pointer',
-                  marginRight: '10px',
-                  color: '#57a3f3'
-                },
-                on: {
-                  click: () => {
-                    this.showUpdateStaffModel(params.row)
-                  }
-                }
-              }, '修改'),
-              h('span', {
-                props: {},
-                style: {
-                  cursor: 'pointer',
-                  marginRight: '10px',
-                  color: 'rgba(255, 0, 0, 0.6)'
-                },
-                on: {
-                  click: () => {
-                    this.removeProject(params.row)
-                  }
-                }
-              }, '删除')
-            ])
-          }
+          slot: 'action'
+          // render: (h, params) => {
+          //   return h('div', {
+          //     attrs: {
+          //       // style: 'height: 40px;'
+          //     }
+          //   }, [
+          //     h('span', {
+          //       props: {},
+          //       style: {
+          //         cursor: 'pointer',
+          //         marginRight: '10px',
+          //         color: '#57a3f3'
+          //       },
+          //       on: {
+          //         click: () => {
+          //           this.showUpdateStaffModel(params.row)
+          //         }
+          //       }
+          //     }, '修改'),
+          //     h('span', {
+          //       props: {},
+          //       style: {
+          //         cursor: 'pointer',
+          //         marginRight: '10px',
+          //         color: 'rgba(255, 0, 0, 0.6)'
+          //       },
+          //       on: {
+          //         click: () => {
+          //           this.removeProject(params.row)
+          //         }
+          //       }
+          //     }, '删除')
+          //   ])
+          // }
         }
       ],
       projectList: []
@@ -173,15 +192,31 @@ export default {
       this.createProjectModal = false
     },
     removeProject (row) {
-      deletById(row.id).then(res => {
-        if (res.data.code === 200) {
-          this.$Message.success('删除成功！')
-          this.getProjectList()
-        } else {
-          this.$Message.error('删除失败！')
+      this.$Modal.confirm({
+        title: '是否确定删除？',
+        onOk: () => {
+          deletById(row.projectId).then(res => {
+            if (res.data.code === 200) {
+              this.$Message.success('删除成功！')
+              this.getProjectList()
+            } else {
+              this.$Message.error('删除失败！')
+            }
+          }).catch(e => {
+            this.$Message.error('网络错误！')
+          })
+        },
+        onCancel: () => {
         }
-      }).catch(e => {
-        this.$Message.error('网络错误！')
+      })
+    },
+    examine (row) {
+      console.log(row)
+      examine(row.projectId).then(res => {
+        if (res.data.code === 200) {
+          this.$Message.success('审核通过')
+          this.getProjectList()
+        }
       })
     }
   }

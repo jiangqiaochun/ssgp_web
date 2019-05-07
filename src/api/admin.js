@@ -57,3 +57,34 @@ export const getStatistics = () => {
     method: 'get'
   })
 }
+
+export const examineProject = (projectId) => {
+  return axios.request({
+    url: '/projects/' + projectId,
+    method: 'put'
+  })
+}
+
+export const postTime = ({startTime, endTime}) => {
+  let req = new FormData()
+  req.set('startTime', startTime)
+  req.set('endTime', endTime)
+  return axios.request({
+    url: '/users/openTime/5cd119d1dc1c731c7047b583',
+    data: req,
+    method: 'put'
+  })
+}
+
+export const getOpenTime = (id) => {
+  return axios.request({
+    url: '/users/openTime/' + id,
+    method: 'get'
+  })
+}
+
+export const exportExcel = () => {
+  return axios.request({
+    url: '/export/'
+  })
+}

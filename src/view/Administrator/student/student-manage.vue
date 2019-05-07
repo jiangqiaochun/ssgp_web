@@ -41,7 +41,7 @@ export default {
         },
         {
           title: '联系电话',
-          key: 'studentTel'
+          key: 'phoneNum'
         },
         {
           title: '操作',
@@ -52,19 +52,19 @@ export default {
                 // style: 'height: 40px;'
               }
             }, [
-              h('span', {
-                props: {},
-                style: {
-                  cursor: 'pointer',
-                  marginRight: '10px',
-                  color: '#57a3f3'
-                },
-                on: {
-                  click: () => {
-                    this.showUpdateStaffModel(params.row)
-                  }
-                }
-              }, '修改'),
+              // h('span', {
+              //   props: {},
+              //   style: {
+              //     cursor: 'pointer',
+              //     marginRight: '10px',
+              //     color: '#57a3f3'
+              //   },
+              //   on: {
+              //     click: () => {
+              //       this.showUpdateStaffModel(params.row)
+              //     }
+              //   }
+              // }, '修改'),
               h('span', {
                 props: {},
                 style: {

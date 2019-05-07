@@ -14,6 +14,9 @@
           <FormItem label="选题性质">
             <p v-html="this.projectNature"></p>
           </FormItem>
+          <FormItem label="选题状态">
+            <p v-html="this.status"></p>
+          </FormItem>
         </Form>
       </Col>
       <Col span="10">
@@ -37,7 +40,7 @@
 </template>
 
 <script>
-import {getMySelection} from '@/api/student'
+import {getMySelection, deleteMySelection} from '@/api/student'
 export default {
   name: 'select-manage',
   data () {
@@ -49,7 +52,8 @@ export default {
       projectType: '',
       teacherName: '',
       teacherJobTitle: '',
-      teacherPhoneNum: ''
+      teacherPhoneNum: '',
+      status: ''
     }
   },
   mounted () {
@@ -64,6 +68,12 @@ export default {
         title: '是否确定删除？',
         content: '<p>删除后需重新选择</p>',
         onOk: () => {
+          console.log('ok')
+          deleteMySelection(this.id).then(res => {
+            if (res.data.code === 200) {
+              this.$Message.success('删除成功！')
+            }
+          })
         },
         onCancel: () => {
         }
@@ -82,6 +92,9 @@ export default {
           this.teacherName = response.teacherName
           this.teacherJobTitle = response.teacherJobTitle
           this.teacherPhoneNum = response.teacherPhoneNum
+          this.status = response.status
+        } else if (res.data.code === 1001) {
+          this.$Message.info('暂无选题')
         }
       })
     }

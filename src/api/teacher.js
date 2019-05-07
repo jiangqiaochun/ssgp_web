@@ -39,3 +39,10 @@ export const changePhone = (newPhone) => {
     method: 'post'
   })
 }
+
+export const examine = (id) => {
+  return axios.request({
+    url: '/selections/' + id,
+    method: 'put'
+  })
+}
