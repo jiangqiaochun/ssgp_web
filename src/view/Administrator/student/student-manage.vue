@@ -29,11 +29,25 @@ export default {
         },
         {
           title: '姓名',
-          key: 'studentName'
+          key: 'studentName',
+          width: '100px'
+        },
+        {
+          title: '性别',
+          key: 'sex',
+          width: '80px'
         },
         {
           title: '密码',
           key: 'password'
+        },
+        {
+          title: '学院',
+          key: 'college'
+        },
+        {
+          title: '专业',
+          key: 'professional'
         },
         {
           title: '班级',

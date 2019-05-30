@@ -136,7 +136,7 @@ export default {
             //   duration: 5000
             // }
             this.$Message.success({
-              content: '密码修改成功，5秒后将跳转重新登录',
+              content: '密码修改成功，即将跳转重新登录',
               duration: 5
             })
             localStorage.clear()

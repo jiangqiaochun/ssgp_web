@@ -52,7 +52,6 @@
       </a>
       <br>
       <Table border :columns="columns1" :data="allSelectionData" style="margin-top: 10px"></Table>
-      <Page :total="100" show-total style="margin-top: 10px; float: right" />
     </div>
     <Modal v-model="changeTimeModal">
       <Divider>设置选题时间</Divider>
@@ -70,7 +69,7 @@
       </div>
     </Modal>
   </div>
-</template>s
+</template>
 
 <script>
 import {getAllSelections, getStatistics, postTime, getOpenTime} from '@/api/admin'

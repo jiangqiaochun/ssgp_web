@@ -15,6 +15,14 @@
       </Row>
       <Row>
         <Col span="4">
+          <h4>性别：</h4>
+        </Col>
+        <Col span="4">
+          <p v-html="userInfo.sex"></p>
+        </Col>
+      </Row>
+      <Row>
+        <Col span="4">
           <h4>学号：</h4>
         </Col>
         <Col span="4">
@@ -34,7 +42,18 @@
       </Row>
       <Row>
         <Col span="4">
+          <h4>所属学院：</h4>
+        </Col>
+        <Col span="4">
+          <p v-html="userInfo.college"></p>
+        </Col>
+      </Row>
+      <Row>
+        <Col span="4">
           <h4>专业班级：</h4>
+        </Col>
+        <Col span="4">
+          <p v-html="userInfo.professional"></p>
         </Col>
         <Col span="4">
           <p v-html="userInfo.classNum"></p>
@@ -42,6 +61,7 @@
       </Row>
     </div>
     <Modal v-model="changeModal">
+      <h3 style="text-align: center">修改密码</h3>
       <Form :model="changePsw" :rules="ruleChangPsw" :label-width="80" style="margin-top: 40px">
         <FormItem label="旧密码" prop="oldPsw">
           <Input type="password" v-model="changePsw.oldPsw"></Input>
@@ -59,6 +79,7 @@
       </div>
     </Modal>
     <Modal v-model="changePhoneModal">
+      <h3 style="text-align: center">修改号码</h3>
       <Form :model="changePhone" :label-width="80" style="margin-top: 40px">
         <FormItem label="新号码" prop="oldPsw">
           <Input type="text" v-model="changePhone"></Input>
@@ -111,8 +132,11 @@ export default {
       userInfo: {
         userId: '',
         studentName: '',
+        sex: '',
         studentPhoneNum: '',
         password: '',
+        college: '',
+        professional: '',
         classNum: '',
         character: ''
       },
@@ -148,8 +172,11 @@ export default {
           console.log(response)
           this.userInfo.userId = response.id
           this.userInfo.studentName = response.studentName
+          this.userInfo.sex = response.sex
           this.userInfo.studentPhoneNum = response.phoneNum
           this.userInfo.password = response.password
+          this.userInfo.college = response.college
+          this.userInfo.professional = response.professional
           this.userInfo.classNum = response.classNum
           this.userInfo.character = response.character
         }

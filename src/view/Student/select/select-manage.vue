@@ -2,10 +2,10 @@
   <div class="student-select-main">
     <div class="student-select-search">
       <Button type="primary" style="background-color: #8c1515; border: 0; float: left" @click="goMySelection">查看我的选题</Button>
-      <Select v-model="teacherId" style="width:200px" @on-change="getTeacherProject(teacherId)" >
+      <Select v-model="teacherId" style="width:200px" placeholder="请选择老师姓名" @on-change="getTeacherProject(teacherId)" >
         <Option v-for="item in teacherList" :value="item.id" :key="item.id"  >{{ item.teacherName }}</Option>
       </Select>
-      <Input v-model="searchCondition" placeholder="请输入老师姓名或选题名称搜索" style="width: 50%" />
+      <Input v-model="searchCondition" placeholder="请输入选题名称搜索" style="width: 50%" />
       <Button type="primary" style="background-color: #8c1515; border: 0" @click="getSelections">搜索</Button>
     </div>
     <div class="student-select-table">
@@ -99,6 +99,9 @@ export default {
       selectProject(req).then(res => {
         if (res.data.code === 200) {
           this.$Message.success('选题成功！')
+          this.getSelections()
+        } else if (res.data.code === 1001) {
+          this.$Message.info(res.data.message)
         }
       })
     },

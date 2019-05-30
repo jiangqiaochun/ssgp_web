@@ -74,6 +74,8 @@ export default {
           if (res.data.data.character === 'Teacher') {
             this.$router.push({ path: '/teacher' })
           }
+        } else if (res.data.code === 400) {
+          this.$Message.error(res.data.message)
         } else {
           // console.log('res====》', res)
           let reason = res.data.data

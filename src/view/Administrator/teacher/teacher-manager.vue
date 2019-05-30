@@ -41,12 +41,24 @@ export default {
           key: 'teacherName'
         },
         {
+          title: '性别',
+          key: 'sex'
+        },
+        {
           title: '密码',
           key: 'password'
         },
         {
           title: '职称',
           key: 'jobTitle'
+        },
+        {
+          title: '可带学生最大数',
+          key: 'maxStudentNum'
+        },
+        {
+          title: '已带学生数',
+          key: 'selectedNum'
         },
         {
           title: '联系电话',
@@ -171,7 +183,7 @@ export default {
           deletAllTeacher().then(res => {
             if (res.data.code === 200) {
               this.$Message.success('删除成功！')
-              this.getProjectList()
+              this.getTeacherList()
             } else {
               this.$Message.error('删除失败！')
             }

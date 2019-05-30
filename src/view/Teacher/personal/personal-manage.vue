@@ -15,6 +15,14 @@
       </Row>
       <Row>
         <Col span="4">
+          <h4>性别：</h4>
+        </Col>
+        <Col span="4">
+          <p v-html="userInfo.sex"></p>
+        </Col>
+      </Row>
+      <Row>
+        <Col span="4">
           <h4>工号：</h4>
         </Col>
         <Col span="4">
@@ -40,6 +48,22 @@
           <p v-html="userInfo.jobTitle"></p>
         </Col>
       </Row>
+      <Row>
+        <Col span="4">
+          <h4>可带学生最大数：</h4>
+        </Col>
+        <Col span="4">
+          <p v-html="userInfo.maxStudentNum"></p>
+        </Col>
+      </Row>
+      <Row>
+        <Col span="4">
+          <h4>已选择学生数：</h4>
+        </Col>
+        <Col span="4">
+          <p v-html="userInfo.selectedNum"></p>
+        </Col>
+      </Row>
     </div>
     <Modal v-model="changeModal">
       <Form :model="changePsw" :rules="ruleChangPsw" :label-width="80" style="margin-top: 40px">
@@ -59,6 +83,7 @@
       </div>
     </Modal>
     <Modal v-model="changePhoneModal">
+      <h3 style="text-align: center">修改手机号</h3>
       <Form :model="changePhone" :label-width="80" style="margin-top: 40px">
         <FormItem label="新号码" prop="oldPsw">
           <Input type="text" v-model="changePhone"></Input>
@@ -111,9 +136,12 @@ export default {
       userInfo: {
         userId: '',
         teacherName: '',
+        sex: '',
         teacherPhoneNum: '',
         password: '',
         jobTitle: '',
+        maxStudentNum: '',
+        selectedNum: '',
         character: ''
       },
       changeModal: false,
@@ -149,9 +177,12 @@ export default {
           console.log(response)
           this.userInfo.userId = response.id
           this.userInfo.teacherName = response.teacherName
+          this.userInfo.sex = response.sex
           this.userInfo.teacherPhoneNum = response.phoneNum
           this.userInfo.password = response.password
           this.userInfo.jobTitle = response.jobTitle
+          this.userInfo.maxStudentNum = response.maxStudentNum
+          this.userInfo.selectedNum = response.selectedNum
           this.userInfo.character = response.character
         }
       })

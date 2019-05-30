@@ -1,21 +1,9 @@
 <template>
   <div>
-<!--    <Row>-->
-<!--      <Col span="2">-->
-<!--        <Button type="primary" style="background-color: #8c1515; color: white;border: #8c1515 " @click="showCreateProject">新增</Button>-->
-<!--      </Col>-->
-<!--      <Col span="2">-->
-<!--        <Upload action="http://localhost:9001/upload/students" :format="['xls','xlsx']" :on-format-error="handleFormatError">-->
-<!--          <Button style="background-color: #8c1515; color: white;border: #8c1515 " icon="ios-cloud-upload-outline">上传表格</Button>-->
-<!--        </Upload>-->
-<!--        &lt;!&ndash;<input type="file" value="" id="file" @change="uploadExcel">&ndash;&gt;-->
-<!--      </Col>-->
-<!--    </Row>-->
     <Button type="primary" style="background-color: #8c1515; color: white;border: #8c1515 " @click="showCreateProject">新增</Button>
     <Table border :columns="columns1" :data="projectList" style="margin-top: 10px">
       <template slot-scope="{row}" slot="action">
         <Button :disabled="row.selectionStatus === '审核成功'" @click="examine(row)">审核</Button>
-<!--        <Button :disabled="row.selectedStudentName">修改</Button>-->
         <Button :disabled="row.selectedStudentName"  @click="removeProject(row)">删除</Button>
       </template>
     </Table>
