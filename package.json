@@ -2,7 +2,7 @@
   "name": "ssgp",
   "version": "1.0.0",
   "description": "Graduation thesis selection system",
-  "author": "jiang <jane@ideamake.cn>",
+  "author": "jiangqiaochun <1225992531@qq.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
